@@ -1,17 +1,37 @@
-import { SDKConfigType, Token } from "./types";
+import { PublicKey } from "@solana/web3.js";
+import { SDKConfig } from "./config/sdk-config";
+import { fetchTokensBackend, fetchTokensCdn, fetchTokensMetaplex } from "./api/";
+import { publicKeysToMap } from "./utils";
 
 export default class Client {
-  constructor(private readonly config: SDKConfigType) {}
+  constructor(public readonly config: SDKConfig = new SDKConfig()) {}
 
-  public async fetchMint(): Promise<Token> {
-    console.log('config', this.config);
-
-    return {} as any;
+  public async fetchMint(mint: PublicKey) {
+    const token = await this.fetchMints([ mint ]);
+    return token[0] ?? null;
   }
 
-  public async fetchMints(): Promise<Token[]> {
+  public async fetchMints(mints: PublicKey[]) {
+    const tokenlist = await this.getFromTokenList(mints);
 
-    return [] as any;
+    const fetchedPubkeys = publicKeysToMap(tokenlist.map((token) => new PublicKey(token.address)));
+    const mintsNotFetched = mints.filter((mint) => !fetchedPubkeys[mint.toString()]);
+
+    const metaplex = await this.getFromMetaplex(mintsNotFetched);
+
+    return [ ...tokenlist, ...metaplex ];
+  }
+
+  private async getFromTokenList(mints: PublicKey[]) {
+    try {
+      return await fetchTokensBackend(this.config, mints);
+    } catch (e) {
+      return await fetchTokensCdn(this.config, mints);
+    }
+  }
+
+  private async getFromMetaplex(mints: PublicKey[]) {
+    return await fetchTokensMetaplex(this.config, mints);
   }
 
 }

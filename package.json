@@ -20,11 +20,12 @@
     "@solana/web3.js": "*"
   },
   "dependencies": {
-
+    "@metaplex-foundation/js-next": "0.11.0",
+    "axios": "^0.27.2"
   },
   "devDependencies": {
-    "@solana/web3.js": "^1.42.0",
     "@metaplex-foundation/mpl-token-metadata": "^2.1.2",
+    "@solana/web3.js": "^1.42.0",
     "typescript": "^4.6.4"
   }
 }

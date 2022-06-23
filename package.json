@@ -1,0 +1,30 @@
+{
+  "name": "@solflare-wallet/utl-sdk",
+  "version": "0.0.1",
+  "description": "",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "scripts": {
+    "build:esm": "tsc",
+    "build:cjs": "tsc --project tsconfig.cjs.json",
+    "build": "npm run build:esm && npm run build:cjs",
+    "test": "npm run build && node test/index.js",
+    "deploy": "npm run build && npm publish --access public"
+  },
+  "files": [
+    "lib/"
+  ],
+  "author": "Solflare Developers <developers@solflare.com>",
+  "license": "ISC",
+  "peerDependencies": {
+    "@solana/web3.js": "*"
+  },
+  "dependencies": {
+
+  },
+  "devDependencies": {
+    "@solana/web3.js": "^1.42.0",
+    "@metaplex-foundation/mpl-token-metadata": "^2.1.2",
+    "typescript": "^4.6.4"
+  }
+}

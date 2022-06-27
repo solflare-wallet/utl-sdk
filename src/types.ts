@@ -3,9 +3,9 @@ export enum Tag {
 }
 
 export enum ChainId {
-  'mainnet-beta' = 101,
-  'testnet' = 102,
-  'devnet' = 103
+  MAINNET = 101,
+  TESTNET = 102,
+  DEVNET = 103
 }
 
 export interface Token {

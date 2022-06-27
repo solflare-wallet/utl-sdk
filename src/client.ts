@@ -1,7 +1,8 @@
 import { PublicKey } from "@solana/web3.js";
 import { SDKConfig } from "./config/sdk-config";
-import { fetchTokensBackend, fetchTokensCdn, fetchTokensMetaplex } from "./api/";
+import { fetchTokensBackend, fetchTokensCdn, fetchTokensMetaplex, searchTokensBackend } from "./api/";
 import { publicKeysToMap } from "./utils";
+import { SearchOptions } from "./types";
 
 export default class Client {
   constructor(public readonly config: SDKConfig = new SDKConfig()) {}
@@ -20,6 +21,10 @@ export default class Client {
     const metaplex = await this.getFromMetaplex(mintsNotFetched);
 
     return [ ...tokenlist, ...metaplex ];
+  }
+
+  public async searchMints(query: string, options: SearchOptions = { start: 0, limit: 100 }) {
+    return await searchTokensBackend(this.config, query, options)
   }
 
   private async getFromTokenList(mints: PublicKey[]) {

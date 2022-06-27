@@ -31,3 +31,8 @@ export interface UTLCdnTokenList {
 export interface UTLApiResponse {
   content: Token[]
 }
+
+export interface SearchOptions {
+  start: number,
+  limit: number
+}

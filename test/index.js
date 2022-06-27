@@ -5,7 +5,7 @@ const config = new SDKConfig({
   chainId: 101,
   connection: new Connection('https://api.mainnet-beta.solana.com/'),
   // timeout: 2000,
-  // apiUrl: "https://utl-api-dev-vl2y2.ondigitalocean.app",
+  // apiUrl: "https://utl-api-63nna7yega-ew.a.run.app",
   // cdnUrl: "https://cdn.jsdelivr.net/gh/solflare-wallet/token-list/solana-tokenlist.json"
 });
 
@@ -30,4 +30,7 @@ const mintsToFetch = [
 
   const multipleTokens = await tokenListClient.fetchMints(mintsToFetch);
   console.log("multipleTokens", multipleTokens);
+
+  const search = await tokenListClient.searchMints('slrs');
+  console.log("searched", search);
 })()

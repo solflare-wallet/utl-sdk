@@ -7,7 +7,7 @@ const DEFAULT_API_URL = 'https://utl-api-63nna7yega-ew.a.run.app';
 const DEFAULT_CDN_URL = 'https://cdn.jsdelivr.net/gh/solflare-wallet/token-list/solana-tokenlist.json';
 const DEFAULT_TIMEOUT = 2000;
 
-export class SDKConfig {
+export class UtlConfig {
   /**
    * Chain id - unique chain id (mainnet 101, testnet 102, devnet 103)
    */
@@ -33,7 +33,7 @@ export class SDKConfig {
    */
   timeout = DEFAULT_TIMEOUT;
 
-  constructor(configOverrides: Partial<SDKConfig> = {}) {
+  constructor(configOverrides: Partial<UtlConfig> = {}) {
     Object.assign(this, configOverrides);
   }
 }

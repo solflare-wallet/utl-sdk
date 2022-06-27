@@ -1,11 +1,11 @@
 import { PublicKey } from "@solana/web3.js";
-import { SDKConfig } from "./config/sdk-config";
+import { UtlConfig } from "./config/utl-config";
 import { fetchTokensBackend, fetchTokensCdn, fetchTokensMetaplex, searchTokensBackend } from "./api/";
 import { publicKeysToMap } from "./utils";
 import { SearchOptions } from "./types";
 
 export default class Client {
-  constructor(public readonly config: SDKConfig = new SDKConfig()) {}
+  constructor(public readonly config: UtlConfig = new UtlConfig()) {}
 
   public async fetchMint(mint: PublicKey) {
     const token = await this.fetchMints([ mint ]);

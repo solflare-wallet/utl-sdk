@@ -1,7 +1,7 @@
-const { Client, SDKConfig } = require('..');
+const { Client, UtlConfig } = require('..');
 const { Connection, PublicKey } = require('@solana/web3.js');
 
-const config = new SDKConfig({
+const config = new UtlConfig({
   chainId: 101,
   connection: new Connection('https://api.mainnet-beta.solana.com/'),
   // timeout: 2000,
@@ -31,6 +31,6 @@ const mintsToFetch = [
   const multipleTokens = await tokenListClient.fetchMints(mintsToFetch);
   console.log("multipleTokens", multipleTokens);
 
-  const search = await tokenListClient.searchMints('slrs');
+  const search = await tokenListClient.searchMints('slrs', { start: 0, limit: 100 });
   console.log("searched", search);
 })()

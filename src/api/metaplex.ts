@@ -2,7 +2,7 @@ import { Metaplex, Nft } from "@metaplex-foundation/js-next";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { transformMetaplexToken } from "../transformers";
 import { Token } from "../types";
-import { SDKConfig } from "../config/sdk-config";
+import { UtlConfig } from "../config/utl-config";
 import { getMultipleAccounts } from "../utils";
 
 const getNftMetadata = async (connection: Connection, mints: PublicKey[]) => {
@@ -11,7 +11,7 @@ const getNftMetadata = async (connection: Connection, mints: PublicKey[]) => {
   return nfts.filter(Boolean) as Nft[];
 }
 
-export const fetchTokensMetaplex = async ({ connection, chainId }: SDKConfig, mints: PublicKey[]): Promise<Token[]> => {
+export const fetchTokensMetaplex = async ({ connection, chainId }: UtlConfig, mints: PublicKey[]): Promise<Token[]> => {
   const accounts = await getNftMetadata(connection, mints);
   const mintsToFetch: PublicKey[] = [];
 

@@ -5,7 +5,7 @@ const config = new SDKConfig({
   chainId: 101,
   connection: new Connection('https://api.mainnet-beta.solana.com/'),
   // timeout: 2000,
-  // apiUrl: "http://192.168.1.210:8000",
+  // apiUrl: "https://utl-api-dev-vl2y2.ondigitalocean.app",
   // cdnUrl: "https://cdn.jsdelivr.net/gh/solflare-wallet/token-list/solana-tokenlist.json"
 });
 
@@ -19,7 +19,7 @@ const mintsToFetch = [
   new PublicKey("5KV2W2XPdSo97wQWcuAVi6G4PaCoieg4Lhhi61PAMaMJ"),
   new PublicKey("4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R"),
   new PublicKey("EP51bskkbQHnKfZEcyopZhaaJNsqDrsski4QATNdikqy"), // Turshijin token
-  new PublicKey("FjWWxNDB2uVjeaKR7nVjFjxTau85wVfAzwbLbpmJot3v"), // Fake USDC
+  new PublicKey("FjWWxNDB2uVjeaKR7nVjFjxTau85wVfAzwbLbpmJot3v") // Fake USDC
 ];
 
 (async () => {

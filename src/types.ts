@@ -15,7 +15,7 @@ export interface Token {
   verified?: boolean
   address: string
   tags?: Set<Tag>
-  decimals?: number | null
+  decimals: number | null
   holders?: number | null
 }
 

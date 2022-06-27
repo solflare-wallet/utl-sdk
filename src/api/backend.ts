@@ -14,9 +14,9 @@ const fetchFromBackend = async ({ apiUrl, timeout, chainId }: SDKConfig, address
   }
 }
 
-const searchFromBackend = async ({ apiUrl, timeout, chainId }: SDKConfig, query: string, { limit }: SearchOptions): Promise<UTLApiResponse> => {
+const searchFromBackend = async ({ apiUrl, timeout, chainId }: SDKConfig, query: string, { start, limit }: SearchOptions): Promise<UTLApiResponse> => {
   try {
-    const response = await axios.get<UTLApiResponse>(`${apiUrl}/v1/search?query=${query}&limit=${limit}&chainId=${chainId}`, { timeout });
+    const response = await axios.get<UTLApiResponse>(`${apiUrl}/v1/search?query=${query}&start=${start}&limit=${limit}&chainId=${chainId}`, { timeout });
     return response.data;
   } catch (e) {
     throw e;

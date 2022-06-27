@@ -24,7 +24,7 @@ export default class Client {
   }
 
   public async searchMints(query: string, options: SearchOptions = { start: 0, limit: 100 }) {
-    return await searchTokensBackend(this.config, query, options)
+    return await searchTokensBackend(this.config, query, options);
   }
 
   private async getFromTokenList(mints: PublicKey[]) {

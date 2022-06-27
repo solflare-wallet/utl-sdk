@@ -72,7 +72,7 @@ const config = new UtlConfig({
   /**
    * Backend API url which is used to query tokens
    */
-  apiUrl: "https://utl-api-63nna7yega-ew.a.run.app",
+  apiUrl: "https://token-list-api.solana.cloud",
   /**
    * CDN hosted static token list json which is used in case backend is down
    */

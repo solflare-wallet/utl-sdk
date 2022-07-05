@@ -1,4 +1,4 @@
-import { Metaplex, Nft } from "@metaplex-foundation/js-next";
+import { Metaplex, Nft } from "@metaplex-foundation/js";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { transformMetaplexToken } from "../transformers";
 import { Token } from "../types";

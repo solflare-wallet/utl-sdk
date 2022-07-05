@@ -1,4 +1,4 @@
-import { Nft } from "@metaplex-foundation/js-next";
+import { Nft } from "@metaplex-foundation/js";
 import { Token } from "./types";
 
 export const transformMetaplexToken = (nft: Nft, additionalData: object, decimalsMap: object): Token => {

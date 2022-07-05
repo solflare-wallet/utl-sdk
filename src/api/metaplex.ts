@@ -1,4 +1,5 @@
 import { Metaplex, Nft } from "@metaplex-foundation/js";
+import { TokenStandard } from "@metaplex-foundation/mpl-token-metadata";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { transformMetaplexToken } from "../transformers";
 import { Token } from "../types";
@@ -8,7 +9,7 @@ import { getMultipleAccounts } from "../utils";
 const getNftMetadata = async (connection: Connection, mints: PublicKey[]) => {
   const metaplex = new Metaplex(connection);
   const nfts = await metaplex.nfts().findAllByMintList(mints);
-  return nfts.filter(Boolean) as Nft[];
+  return nfts.filter((nft) => nft?.tokenStandard === TokenStandard.Fungible) as Nft[];
 }
 
 export const fetchTokensMetaplex = async ({ connection, chainId }: UtlConfig, mints: PublicKey[]): Promise<Token[]> => {

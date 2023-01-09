@@ -6,6 +6,8 @@ import { Token } from "../types";
 import { UtlConfig } from "../config/utl-config";
 import { getMultipleAccounts } from "../utils";
 
+const TIMEOUT = 5000;
+
 const getNftMetadata = async (connection: Connection, mints: PublicKey[]) => {
   const metaplex = new Metaplex(connection);
   const nfts = await metaplex.nfts().findAllByMintList(mints);
@@ -19,7 +21,10 @@ export const fetchTokensMetaplex = async ({ connection, chainId }: UtlConfig, mi
   const promises = accounts.map(async (nft) => {
     mintsToFetch.push(nft.mint)
     try {
-      await nft.metadataTask.run();
+      // @ts-ignore
+      const abortController = new AbortController();
+      setTimeout(() => abortController.abort(), TIMEOUT);
+      await nft.metadataTask.run({ signal: abortController.signal as any });
       return nft;
     } catch {
       return nft;

@@ -1,6 +1,6 @@
 {
   "name": "@solflare-wallet/utl-sdk",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",

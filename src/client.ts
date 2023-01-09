@@ -27,7 +27,7 @@ export default class Client {
     return await searchTokensBackend(this.config, query, options);
   }
 
-  private async getFromTokenList(mints: PublicKey[]) {
+  public async getFromTokenList(mints: PublicKey[]) {
     try {
       return await fetchTokensBackend(this.config, mints);
     } catch (e) {
@@ -35,7 +35,7 @@ export default class Client {
     }
   }
 
-  private async getFromMetaplex(mints: PublicKey[]) {
+  public async getFromMetaplex(mints: PublicKey[]) {
     return await fetchTokensMetaplex(this.config, mints);
   }
 

@@ -6,6 +6,7 @@ const DEFAULT_PROVIDER_URL = 'https://api.mainnet-beta.solana.com/';
 const DEFAULT_API_URL = 'https://token-list-api.solana.cloud';
 const DEFAULT_CDN_URL = 'https://cdn.jsdelivr.net/gh/solflare-wallet/token-list/solana-tokenlist.json';
 const DEFAULT_TIMEOUT = 2000;
+const DEFAULT_METAPLEX_TIMEOUT = 5000;
 
 export class UtlConfig {
   /**
@@ -32,6 +33,11 @@ export class UtlConfig {
    * Number of miliseconds to wait for token list backend to respond
    */
   timeout = DEFAULT_TIMEOUT;
+
+  /**
+   * Number of miliseconds to wait for arweave to respond
+   */
+  metaplexTimeout = DEFAULT_METAPLEX_TIMEOUT;
 
   constructor(configOverrides: Partial<UtlConfig> = {}) {
     Object.assign(this, configOverrides);

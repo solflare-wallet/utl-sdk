@@ -1,11 +1,14 @@
+import EventEmitter from "eventemitter3";
 import { PublicKey } from "@solana/web3.js";
 import { UtlConfig } from "./config/utl-config";
 import { fetchTokensBackend, fetchTokensCdn, fetchTokensMetaplex, searchTokensBackend } from "./api/";
 import { publicKeysToMap } from "./utils";
-import { SearchOptions } from "./types";
+import { SearchOptions, UTLOnAccountsLoadedCallback } from './types';
 
-export default class Client {
-  constructor(public readonly config: UtlConfig = new UtlConfig()) {}
+export default class Client extends EventEmitter {
+  constructor(public readonly config: UtlConfig = new UtlConfig()) {
+    super();
+  }
 
   public async fetchMint(mint: PublicKey) {
     const token = await this.fetchMints([ mint ]);
@@ -15,12 +18,20 @@ export default class Client {
   public async fetchMints(mints: PublicKey[]) {
     const tokenlist = await this.getFromTokenList(mints);
 
+    this.emit('tokens', tokenlist);
+
     const fetchedPubkeys = publicKeysToMap(tokenlist.map((token) => new PublicKey(token.address)));
     const mintsNotFetched = mints.filter((mint) => !fetchedPubkeys[mint.toString()]);
 
-    const metaplex = await this.getFromMetaplex(mintsNotFetched);
+    const metaplex = await this.getFromMetaplex(mintsNotFetched, (metaplexPartial) => {
+      this.emit('tokens', [ ...tokenlist, ...metaplexPartial ]);
+    });
 
-    return [ ...tokenlist, ...metaplex ];
+    const data = [ ...tokenlist, ...metaplex ];
+
+    this.emit('tokens', data);
+
+    return data;
   }
 
   public async searchMints(query: string, options: SearchOptions = { start: 0, limit: 100 }) {
@@ -35,8 +46,8 @@ export default class Client {
     }
   }
 
-  public async getFromMetaplex(mints: PublicKey[]) {
-    return await fetchTokensMetaplex(this.config, mints);
+  public async getFromMetaplex(mints: PublicKey[], onAccountsLoaded: UTLOnAccountsLoadedCallback = () => null) {
+    return await fetchTokensMetaplex(this.config, mints, onAccountsLoaded);
   }
 
 }

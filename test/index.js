@@ -25,6 +25,8 @@ const mintsToFetch = [
 (async () => {
   const tokenListClient = new Client(config);
 
+  tokenListClient.on('tokens', (tokens) => console.log('event', tokens));
+
   const singleToken = await tokenListClient.fetchMint(mintsToFetch[0]);
   console.log('singleToken', singleToken);
 

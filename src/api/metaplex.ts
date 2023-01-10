@@ -2,11 +2,9 @@ import { Metaplex, Nft } from "@metaplex-foundation/js";
 import { TokenStandard } from "@metaplex-foundation/mpl-token-metadata";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { transformMetaplexToken } from "../transformers";
-import { Token } from "../types";
+import { Token, UTLOnAccountsLoadedCallback } from '../types';
 import { UtlConfig } from "../config/utl-config";
 import { getMultipleAccounts } from "../utils";
-
-const TIMEOUT = 5000;
 
 const getNftMetadata = async (connection: Connection, mints: PublicKey[]) => {
   const metaplex = new Metaplex(connection);
@@ -14,24 +12,9 @@ const getNftMetadata = async (connection: Connection, mints: PublicKey[]) => {
   return nfts.filter((nft) => nft?.tokenStandard === TokenStandard.Fungible) as Nft[];
 }
 
-export const fetchTokensMetaplex = async ({ connection, chainId }: UtlConfig, mints: PublicKey[]): Promise<Token[]> => {
+export const fetchTokensMetaplex = async ({ connection, chainId, metaplexTimeout }: UtlConfig, mints: PublicKey[], onAccountsLoaded: UTLOnAccountsLoadedCallback = () => null): Promise<Token[]> => {
   const accounts = await getNftMetadata(connection, mints);
-  const mintsToFetch: PublicKey[] = [];
-
-  const promises = accounts.map(async (nft) => {
-    mintsToFetch.push(nft.mint)
-    try {
-      // @ts-ignore
-      const abortController = new AbortController();
-      setTimeout(() => abortController.abort(), TIMEOUT);
-      await nft.metadataTask.run({ signal: abortController.signal as any });
-      return nft;
-    } catch {
-      return nft;
-    }
-  });
-
-  await Promise.all(promises);
+  const mintsToFetch = accounts.map((nft) => nft.mint);
 
   // Fetch decimals for all mints with metadata in a single call
   const decimalsMap = {};
@@ -46,6 +29,26 @@ export const fetchTokensMetaplex = async ({ connection, chainId }: UtlConfig, mi
       decimalsMap[pubkey] = data.parsed.info.decimals;
     });
   }
+
+  onAccountsLoaded(
+    accounts.map((account) => {
+      return transformMetaplexToken(account, { chainId, verified: false, source: 'METAPLEX' }, decimalsMap);
+    })
+  );
+
+  const promises = accounts.map(async (nft) => {
+    try {
+      // @ts-ignore
+      const abortController = new AbortController();
+      setTimeout(() => abortController.abort(), metaplexTimeout);
+      await nft.metadataTask.run({ signal: abortController.signal as any });
+      return nft;
+    } catch {
+      return nft;
+    }
+  });
+
+  await Promise.all(promises);
 
   return accounts.map((account) => {
     return transformMetaplexToken(account, { chainId, verified: false, source: 'METAPLEX' }, decimalsMap);

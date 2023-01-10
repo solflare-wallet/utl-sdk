@@ -36,3 +36,5 @@ export interface SearchOptions {
   start: number,
   limit: number
 }
+
+export type UTLOnAccountsLoadedCallback = (tokens: Token[]) => any;

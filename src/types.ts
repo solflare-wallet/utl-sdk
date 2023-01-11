@@ -8,6 +8,12 @@ export enum ChainId {
   DEVNET = 103
 }
 
+export enum UTLSource {
+  API = 'API',
+  CHAIN = 'CHAIN',
+  METADATA = 'METADATA'
+}
+
 export interface Token {
   name: string
   symbol: string
